@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="es" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="imgs/logo.png" type="image/png" />
+    <title></title>
+    <link rel="manifest" href="manifest.json">
+    <!-- styles -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" href="style/styles.css">
+   
+  </head>
+  <body>
+
+    <div class="background"></div>
+    <header>
+      <img src="imgs/reload2.svg" id="reload-git-btn" class="reload-btn">
+      <h1 class ="title">Users</h1>
+    </header>
+
+    
+    <section class="cards">
+      <article class="user" hidden>
+        <img class="avatar" src="" alt="">
+        <div class="card-text">
+          <h2 class="name"></h2>
+          <p class="email"></p>
+          <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-sm">Details</button>
+          <div class="modal bd-example-modal-sm" tabindex="-1" role="dialog">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title"></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    Phone:<p class="modal-phone"></p>
+                    Email:<p class="modal-mail"></p>
+                    City:<p class="modal-location"></p>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+        </div>
+      </article>
+
+     
+
+    </section>
+
+
+
+
+    <!-- app -->
+    <script src="scripts/data.js" async></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+  </body>
+  <footer class="foo">
+      <h4 class ="title">Alfredo / jatapia@sciodev.com</h4>
+  </footer>
+
+</html>
