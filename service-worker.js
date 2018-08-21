@@ -1,34 +1,57 @@
-//This is the "Offline page" service worker
+var cacheName = 'user-1.0';
+var dataCacheName = 'user-1.0';
 
-//Install stage sets up the offline page in the cache and opens a new cache
-self.addEventListener('install', function(event) {
-  var offlinePage = new Request('offline.html');
-  event.waitUntil(
-    fetch(offlinePage).then(function(response) {
-      return caches.open('pwabuilder-offline').then(function(cache) {
-        console.log('[PWA Builder] Cached offline page during Install'+ response.url);
-        return cache.put(offlinePage, response);
-      });
-  }));
+var urlsToCache = [
+  './',
+  './index.html',
+  './scripts/data.js',
+  './style/styles.css',  
+  './imgs/reload.svg'
+];
+
+self.addEventListener('install', function(e) {
+  console.log('[ServiceWorker] Install');
+  e.waitUntil(
+    caches.open(cacheName).then(function(cache) {
+      console.log('[ServiceWorker] Caching app shell');
+      return cache.addAll(urlsToCache);
+    })
+  );
 });
 
-//If any fetch fails, it will show the offline page.
-//Maybe this should be limited to HTML documents?
-self.addEventListener('fetch', function(event) {
-  event.respondWith(
-    fetch(event.request).catch(function(error) {
-      console.error( '[PWA Builder] Network request Failed. Serving offline page ' + error );
-      return caches.open('pwabuilder-offline').then(function(cache) {
-        return cache.match('offline.html');
-      });
-    }
-  ));
+self.addEventListener('activate', function(e) {
+  console.log('[ServiceWorker] Activate');
+  e.waitUntil(
+    caches.keys().then(function(keyList) {
+      return Promise.all(keyList.map(function(key) {
+        if (key !== cacheName && key !== dataCacheName) {
+          console.log('[ServiceWorker] Removing old cache', key);
+          return caches.delete(key);
+        }
+      }));
+    })
+  );
+  return self.clients.claim();
 });
 
-//This is a event that can be fired from your page to tell the SW to update the offline page
-self.addEventListener('refreshOffline', function(response) {
-  return caches.open('pwabuilder-offline').then(function(cache) {
-    console.log('[PWA Builder] Offline page updated from refreshOffline event: '+ response.url);
-    return cache.put(offlinePage, response);
-  });
+self.addEventListener('fetch', function(e) {
+  console.log('[Service Worker] Fetch', e.request.url);
+  var dataUrl = 'https://randomuser.me/api?results=10';
+  if (e.request.url.indexOf(dataUrl) > -1) {
+     console.log('error');
+    e.respondWith(
+      caches.open(dataCacheName).then(function(cache) {
+        return fetch(e.request).then(function(response){
+          cache.put(e.request.url, response.clone());
+          return response;
+        });
+      })
+    );
+  } else {
+    e.respondWith(
+      caches.match(e.request).then(function(response) {
+        return response || fetch(e.request);
+      })
+    );
+  }
 });
